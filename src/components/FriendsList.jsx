@@ -1,7 +1,21 @@
-import { useState } from 'react';
+import axios from 'axios';
+import { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
 
 export default function FriendsList(props) {
+  const { authInfo } = useContext(AuthContext);
+
   const [friends, setFriends] = useState([]);
+  useEffect(() => {
+    axios
+      .get('https://nextgen-project.onrender.com/api/s11d2/friends', {
+        headers: {
+          authorization: authInfo.token,
+        },
+      })
+      .then((res) => setFriends(res.data))
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <div className="friendListDiv">

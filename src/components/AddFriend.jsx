@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
@@ -10,8 +11,7 @@ function AddFriend() {
     formState: { errors },
   } = useForm({ mode: 'onChange' });
 
-  const token = 'TODO: token loginden gelecek.';
-
+  const { authInfo } = useContext(AuthContext);
   const history = useHistory();
   const addFriendSubmit = (data) => {
     const postData = { ...data, age: Number(data.age) };
@@ -20,7 +20,7 @@ function AddFriend() {
       url: 'https://nextgen-project.onrender.com/api/s11d2/friends',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: token,
+        Authorization: authInfo.token,
       },
       data: JSON.stringify(postData),
     };

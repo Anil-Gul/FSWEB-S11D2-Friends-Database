@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
 
 function LoginForm() {
   const [form, setForm] = useState({
@@ -6,17 +7,46 @@ function LoginForm() {
     password: '',
   });
 
+  const { initAuth } = useContext(AuthContext);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    initAuth(form);
   };
 
-  const handleChange = (e) => {};
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   return (
     <div>
       <div className="loginFormMainDiv">
         <h1>LOGIN</h1>
-        <p>TODO: Form buraya gelecek</p>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <h2>USERNAME</h2>
+            <input
+              name="username"
+              onChange={handleChange}
+              value={form.username}
+              placeholder="Username"
+            ></input>
+          </div>
+          <div>
+            <h2>PASSWORD</h2>
+            <input
+              type="password"
+              name="password"
+              value={form.password}
+              onChange={handleChange}
+              placeholder="Password"
+            ></input>
+          </div>
+          <button type="submit">SUBMIT</button>
+        </form>
       </div>
     </div>
   );
